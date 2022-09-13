@@ -72,11 +72,11 @@ filetype plugin indent on    " required
 "highlight Pmenu ctermbg=gray guibg=gray
 "highlight Normal guibg=darkblue
 
-nnoremap @c :!make && ./build/main<cr>
-nnoremap @a :!git add %<cr>
-nnoremap @A :!git add .<cr>
-nnoremap @g :!git commit<cr>
-nnoremap @p :!git push<cr>
+nnoremap @c :term make && ./build/main && exit<cr>
+nnoremap @a :term git add % && exit<cr>
+nnoremap @A :term git add . && exit<cr>
+nnoremap @g :term git commit && exit<cr>
+nnoremap @p :term git push && exit<cr>
 
 nnoremap B gE
 nnoremap <A-t> <cmd>tabnew<cr>
