@@ -1,4 +1,7 @@
 "
+"   To use this rc: create a symbolic link to this file, 
+"   or copy this file to ~/.config/nvim/, and rename it to init.vim
+"
 " Configs below Vundle init
 "
 "
@@ -70,6 +73,10 @@ filetype plugin indent on    " required
 "highlight Normal guibg=darkblue
 
 nnoremap @c :!make && ./build/main<cr>
+nnoremap @a :!git add %<cr>
+nnoremap @A :!git add .<cr>
+nnoremap @g :!git commit<cr>
+nnoremap @p :!git push<cr>
 
 nnoremap B gE
 nnoremap <A-t> <cmd>tabnew<cr>
