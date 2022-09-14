@@ -84,6 +84,7 @@ nnoremap @a :term git add % && exit<cr>
 nnoremap @A :term git add . && exit<cr>
 nnoremap @g :term git commit && exit<cr>
 nnoremap @p :term git push && exit<cr>
+nnoremap @P :term git add . && git commit && git push && exit<cr>
 
 nnoremap B gE
 nnoremap <A-t> <cmd>tabnew<cr>
