@@ -15,6 +15,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'voldikss/vim-floaterm'
 Plugin 'artanikin/vim-synthwave84'
 Plugin 'mhinz/vim-startify'
 Plugin 'relastle/bluewery.vim'
@@ -72,7 +73,14 @@ filetype plugin indent on    " required
 "highlight Pmenu ctermbg=gray guibg=gray
 "highlight Normal guibg=darkblue
 
-nnoremap @c :term make && ./build/main && exit<cr>
+" Disable line numbers. On open terminal, enter insert mode. Basically get rid
+" of nvim terminal features
+au TermOpen * setlocal listchars= nonumber norelativenumber
+au TermOpen * startinsert
+au BufEnter,BufWinEnter,WinEnter term://* startinsert
+au BufLeave term://* stopinsert
+
+nnoremap @c :term make -C ./build/ && ./build/main && exit<cr>
 nnoremap @a :term git add % && exit<cr>
 nnoremap @A :term git add . && exit<cr>
 nnoremap @g :term git commit && exit<cr>
