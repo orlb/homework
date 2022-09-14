@@ -15,7 +15,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'voldikss/vim-floaterm'
 Plugin 'artanikin/vim-synthwave84'
 Plugin 'mhinz/vim-startify'
 Plugin 'relastle/bluewery.vim'
