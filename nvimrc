@@ -74,18 +74,22 @@ filetype plugin indent on    " required
 
 " Disable line numbers. On open terminal, enter insert mode. Basically get rid
 " of nvim terminal features
-au TermOpen * setlocal listchars= nonumber norelativenumber
-au TermOpen * startinsert
-au BufEnter,BufWinEnter,WinEnter term://* startinsert
+
+
+"au TermOpen * setlocal listchars= nonumber norelativenumber
+"au TermOpen * startinsert
+"au BufEnter,BufWinEnter,WinEnter term://* startinsert
 au BufLeave term://* stopinsert
 
-nnoremap @c :term make -C ./build/ && ./build/main && exit<cr>
-nnoremap @a :term git add % && exit<cr>
-nnoremap @A :term git add . && exit<cr>
-nnoremap @g :term git commit && exit<cr>
-nnoremap @p :term git push && exit<cr>
-nnoremap @P :term git add . && git commit && git push && exit<cr>
+" it goes :tabnew, :term, :startinsert
+nnoremap @c :tabnew<cr>:term make -C ./build/ && ./build/main && exit<cr>:IndentLinesDisable<cr>:startinsert<cr>
+nnoremap @a :tabnew<cr>:term git add % && exit<cr>:startinsert<cr>
+nnoremap @A :tabnew<cr>:term git add . && exit<cr>:startinsert<cr>
+nnoremap @g :tabnew<cr>:term git commit && exit<cr>:startinsert<cr>
+nnoremap @p :tabnew<cr>:term git push && exit<cr>:startinsert<cr>
+nnoremap @P :tabnew<cr>:term git add . && git commit && git push && exit<cr>:startinsert<cr>
 
+tnoremap <Esc> <C-\><C-n>
 nnoremap B gE
 nnoremap <A-t> <cmd>tabnew<cr>
 nnoremap <A-1> 1gt
