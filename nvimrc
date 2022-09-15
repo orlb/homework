@@ -82,10 +82,13 @@ filetype plugin indent on    " required
 au BufLeave term://* stopinsert
 
 " it goes :tabnew, :term, :startinsert
-nnoremap @c :tabnew<cr>:term make -C ./build/ && ./build/main && exit<cr>:IndentLinesDisable<cr>:startinsert<cr>
+" compile and run macros, different number for different environment
+nnoremap @1 :tabnew<cr>:term make -C ./build/ && ./build/main && exit<cr>:IndentLinesDisable<cr>:startinsert<cr>
+
+"git macros
 nnoremap @a :tabnew<cr>:term git add % && exit<cr>:startinsert<cr>
 nnoremap @A :tabnew<cr>:term git add . && exit<cr>:startinsert<cr>
-nnoremap @g :tabnew<cr>:term git commit && exit<cr>:startinsert<cr>
+nnoremap @c :tabnew<cr>:term git commit && exit<cr>:startinsert<cr>
 nnoremap @p :tabnew<cr>:term git push && exit<cr>:startinsert<cr>
 nnoremap @P :tabnew<cr>:term git add . && git commit && git push && exit<cr>:startinsert<cr>
 
