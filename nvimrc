@@ -1,3 +1,4 @@
+" TODO: separate vundle init into region or something
 "
 "   To use this rc: create a symbolic link to this file, 
 "   or copy this file to ~/.config/nvim/, and rename it to init.vim
@@ -119,9 +120,12 @@ nnoremap <A-=> <c-w>+
 nnoremap <A-,> <c-w>8<
 nnoremap <A-.> <c-w>8>
 
-colo bluewery
+colo desert
 hi Pmenu ctermbg=red guibg=darkslateblue
 hi Normal guibg=NONE
+
+hi MatchParen ctermbg=6 guibg=#7f7f8c guifg=#bdb76b
+
 
 
 set nocompatible              " be iMproved, required
