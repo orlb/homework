@@ -308,17 +308,3 @@ ex ()
 }
 
 
-# echoed aliases
-alias todo="nvim ~/Desktop/todo.txt"
-alias hours="nvim ~/Desktop/hours.txt"
-alias e="nvim"
-alias nvimrc="nvim ~/.nvimrc"
-alias vimrc="vim ~/.vimrc"
-alias bashrc="nvim ~/.bashrc"
-alias project1="cd ~/Desktop/shtuff/c/test/ && nvim main.cpp"
-alias school="nvim ~/Desktop/shtuff/etc/"
-alias aurora="ssh olbrown3@aurora.cs.uaf.edu"
-alias dt="cd ~/Desktop"
-alias project2="cd /home/orlabr/Desktop/shtuff/c/game/ && nvim main.cpp"
-alias vpn="sudo openconnect --protocol=gp --usergroup=gateway vpn.alaska.edu -b"
-alias bookmarks="nvim ~/.mozilla/firefox/bookmarks/"
