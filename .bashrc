@@ -150,11 +150,11 @@ messages=(
 #day
 echo -e "\e[3m\e[5m\e[01;3${day}m${days[${day}]}\e[0m"
 #bits
-echo -e "\e[3m\e[\e[s\e[100D\e[2B\e[01;91m@\e[01;92m@\e[1B\e[2D\e[01;93m@\e[01;94m@\e[u"
-echo -e "\e[\e[s\e[100D\e[1B\e[78C\e[01;91m@\e[01;92m@\e[1B\e[1D\e[01;93m@\e[01;94m@\e[u"
+echo -e "\e[s\e[3m\e[100D\e[2B\e[01;91m@\e[01;92m@\e[1B\e[2D\e[01;93m@\e[01;94m@\e[u"
+echo -e "\e[s\e[100D\e[1B\e[78C\e[01;91m@\e[01;92m@\e[1B\e[1D\e[01;93m@\e[01;94m@\e[u"
 #schedule
-echo -e "\e[4m\e[s\e[\e[100D\e[10A\e[49C\e[01;33m$(date +%A) $(date +%b) $(date +%d)\e[u\e[0m"
-echo -e "\e[3m\e[s\e[9A${rtrn}\e[01;97m${messages[${day}]}\e[u"
+echo -e "\e[s\e[4m\e[\e[100D\e[10A\e[49C\e[01;33m$(date +%A) $(date +%b) $(date +%d)\e[u\e[0m"
+echo -e "\e[s\e[3m\e[9A${rtrn}\e[01;97m${messages[${day}]}\e[u"
 #remind
 echo -e "\e[s\e[1A\e[100D\e[7C\e[01;35m-->   ${reminders[$(($RANDOM % ${#reminders[@]}))]} \e[100D\e[70C<--\e[u"
 echo -e "\e[01;00m\e[0m"
@@ -178,10 +178,10 @@ cd ~/Desktop/
 colors() {
 	local fgc bgc vals seq0
 
-	printf "Color escapes are %s\n" '\e[${value};...;${value}m'
-	printf "Values 30..37 are \e[33mforeground colors\e[m\n"
-	printf "Values 40..47 are \e[43mbackground colors\e[m\n"
-	printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
+	printf "Color escapes are %s\n" '\033[${value};...;${value}m'
+	printf "Values 30..37 are \033[33mforeground colors\033[m\n"
+	printf "Values 40..47 are \033[43mbackground colors\033[m\n"
+	printf "Value  1 gives a  \033[1mbold-faced look\033[m\n\n"
 
 	# foreground colors
 	for fgc in {30..37}; do
@@ -193,10 +193,10 @@ colors() {
 			vals="${fgc:+$fgc;}${bgc}"
 			vals=${vals%%;}
 
-			seq0="${vals:+\e[${vals}m}"
+			seq0="${vals:+\033[${vals}m}"
 			printf "  %-9s" "${seq0:-(default)}"
-			printf " ${seq0}TEXT\e[m"
-			printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
+			printf " ${seq0}TEXT\033[m"
+			printf " \033[${vals:+${vals+$vals;}}1mBOLD\033[m"
 		done
 		echo; echo
 	done
@@ -207,10 +207,10 @@ colors() {
 # Change the window title of X terminals
 case ${TERM} in
 	xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-		PROMPT_COMMAND='echo -ne "\e]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
 		;;
 	screen*)
-		PROMPT_COMMAND='echo -ne "\e_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\e\\"'
+		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
 		;;
 esac
 
@@ -243,7 +243,7 @@ if ${use_color} ; then
 	if [[ ${EUID} == 0 ]] ; then
 		PS1='\[\e[01;31m\][\h\[\e[01;36m\] \W\[\e[01;31m\]]\$\[\e[00m\] '
 	else
-		PS1='\[\e[01;32m\][\[\e[00m\]\e[05m\A\e[00m \[\e[01;32m\]\u@\h\[\e[01;37m\] \W\[\e[01;32m\]]\$\[\e[00m\] '
+		PS1='\[\033[01;32m\][\[\033[00m\]\[\033[05m\]\A\[\033[00m\] \[\033[01;32m\]\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
 	fi
 
 	alias ls='ls --color=auto'
@@ -308,3 +308,8 @@ ex ()
 }
 
 
+# echoed aliases
+alias e="nvim"
+alias nvimrc="nvim ~/.nvimrc"
+alias vimrc="vim ~/.vimrc"
+alias bashrc="nvim ~/.bashrc"
