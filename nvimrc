@@ -16,6 +16,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'mattn/emmet-vim'
+Plugin 'sukima/xmledit'
 Plugin 'artanikin/vim-synthwave84'
 Plugin 'mhinz/vim-startify'
 Plugin 'relastle/bluewery.vim'
@@ -27,6 +29,8 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-sensible'
 Plugin 'yuttie/comfortable-motion.vim'
+Plugin 'ap/vim-css-color'
+"Plugin 'wfxr/code-minimap'
 "Plugin 'wfxr/minimap.vim'
 
 "Plugin https://github.com/vim-airline/vim-airline "Satus bar
@@ -63,7 +67,7 @@ Plugin 'utensils/colors.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on    " required
+"filetype plugin indent on    " required
 
 " CTRL-SPACE TRIGGERS SEMANTIC COMPLETION FOR YCM
 " set colorscheme default, but make background blue, looks goood
@@ -84,7 +88,38 @@ au BufLeave term://* stopinsert
 
 " it goes :tabnew, :term, :startinsert
 " compile and run macros, different number for different environment
+
+" omnifunc completion
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html set filetype=html
+autocmd FileType html set shiftwidth	=2
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType css set filetype=css
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType java set omnifunc=javacomplete#Complete
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType php set filetype=html
+let g:user_emmet_install_global = 0
+autocmd FileType php,html,css EmmetInstall
+filetype plugin on
+
+" You might also find this useful
+" PHP Generated Code Highlights (HTML & SQL)                                              
+
+let php_sql_query=1                                                                                        
+let php_htmlInStrings=1
+
+" Hope this helps!
+
+let g:AutoPairs = {'(':')', '[':']', '{':'}'}
+
 nnoremap @1 :tabnew<cr>:term make -C ./build/ && ./build/main && exit<cr>:IndentLinesDisable<cr>:startinsert<cr>
+nnoremap @2 :let fi = expand('%:t')<cr>:tabnew<cr>:exe "term python " . fi<cr>:IndentLinesDisable<cr>:startinsert<cr>
+nnoremap @3 :tabnew<cr>:term rm -R /srv/http/*; cp -R ~/Desktop/misc/iam/badges/docdir/* /srv/http/<cr>:IndentLinesDisable<cr>:startinsert<cr>
+
 
 "git macros
 nnoremap @a :tabnew<cr>:term git add % && exit<cr>:startinsert<cr>
@@ -93,6 +128,10 @@ nnoremap @c :tabnew<cr>:term git commit && exit<cr>:startinsert<cr>
 nnoremap @p :tabnew<cr>:term git push && exit<cr>:startinsert<cr>
 nnoremap @P :tabnew<cr>:term git add . && git commit && git push && exit<cr>:startinsert<cr>
 
+inoremap <A-f> <C-x><C-o>
+imap <A-l> <C-y>,
+nnoremap <A-e> <cmd>NERDTree<cr>
+nnoremap <C-a> ggVG"+y<C-o>
 tnoremap <Esc> <C-\><C-n>
 nnoremap B gE
 nnoremap <A-t> <cmd>tabnew<cr>
@@ -107,24 +146,39 @@ nnoremap <A-8> 8gt
 nnoremap <A-9> 9gt
 vnoremap < <gv
 vnoremap > >gv
-nnoremap <A-h> <C-w>p
-noremap <A-j> 15j
-noremap <A-k> 15k
+noremap <A-J> 30j
+noremap <A-j> 10j
+noremap <A-K> 30k
+noremap <A-k> 10k
 nnoremap <A-v> <cmd>vsplit<cr><c-w>w
 nnoremap <A-s> <cmd>split<cr><c-w>w
 nnoremap <A-q> <C-w>q
+nnoremap Q :bd<cr>
 nnoremap <A-l> <C-w>w
-nnoremap <A-e> <cmd>NERDTree<cr>
+nnoremap <A-h> <C-w>p
 nnoremap <A--> <c-w>-
 nnoremap <A-=> <c-w>+
 nnoremap <A-,> <c-w>8<
 nnoremap <A-.> <c-w>8>
+nnoremap <C-l> :bn<cr>
+nnoremap <C-h> :bp<cr>
 
-colo desert
-hi Pmenu ctermbg=red guibg=darkslateblue
-hi Normal guibg=NONE
+"colo desert
+"hi Pmenu ctermbg=red guibg=darkslateblue
+"hi Normal guibg=NONE
+
+let my_colors = ["bluewery", "darkblue", "default", "desert", "dracula", "evening", "gruvbox", "habamax", "koehler", "lunaperche", "slate", "synthwave84"]
+
+:execute 'colo' my_colors[rand() % len(my_colors)]
+
 
 hi MatchParen ctermbg=6 guibg=#7f7f8c guifg=#bdb76b
+
+set swapfile
+
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
 
 
 
@@ -138,7 +192,8 @@ let g:ycm_semantic_triggers =  {
   \ }
 
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+filetype plugin on
+filetype plugin indent on
 "
 " Brief help
 " :PluginList       - lists configured plugins
@@ -171,7 +226,6 @@ set cursorline
 set hlsearch
 
 " enable smartcase search sensitivity "
-set ignorecase
 set smartcase
 
 " Indentation using spaces "
@@ -184,14 +238,15 @@ set smartcase
 set tabstop	=4
 set softtabstop	=4
 set shiftwidth	=4
-set textwidth	=79
 set expandtab
 set autoindent
+set smartindent
 
 " show the matching part of pairs [] {} and () "
 set showmatch
 
 " remove trailing whitespace from Python and Fortran files "
+autocmd BufEnter *.txt :set textwidth=50
 autocmd BufWritePre *.py :%s/\s\+$//e
 autocmd BufWritePre *.f90 :%s/\s\+$//e
 autocmd BufWritePre *.f95 :%s/\s\+$//e

@@ -1,17 +1,25 @@
-clear
+#def /etc/skel/.bashrc
+
+
 if [ "$TERM" = xterm ]; then
 TERM=xterm-256color;
 fi
 export TERM=xterm-256color
 
-echo
 #neofetch --ascii_distro windows7
 
+greet() {
+
+clear
+echo
+
+local day="$1"
 
 reminders=(
-    "reminder1"
-    "reminder2"
-    "reminder3"
+    "Go have some fun"
+    "Winter break housing, see about apartments"
+    "Mailbox next sem, earlier? Laptop repair"
+    "Ask about Christmas time off, tickets"
     )
 
 
@@ -81,23 +89,13 @@ days=("
  )
 
 
-day=$(($(date +%u) - 1))
 rtrn="\e[100D\e[45C"
 
 messages=(
-    #sun
-    "800  ->     #   MATH HW
-    ${rtrn}     - 1400 # ACTING HW
-    ${rtrn}.
-    ${rtrn}1400 - 1600 ++ Maintenance
-    ${rtrn}.
-    ${rtrn}1600 - 1800 $ Hobb..
-    ${rtrn}1800 - LATE & software..research
-    "
     #mon
     "800 - 1015  % MATH..CS
     ${rtrn}.
-    ${rtrn}1030 ->     & work
+    ${rtrn}1030 ->     & SOURDOUGH
     ${rtrn}.
     ${rtrn}     ->     # ACTING HW
     ${rtrn}     ->     ## LATIN HW
@@ -105,16 +103,16 @@ messages=(
     #tue
     "945 - 1115  % ACTING 
     ${rtrn}.
-    ${rtrn}1115 - 1700 & software..r.m.t
+    ${rtrn}1115 - 1700 & IAM..r.m.t
     ${rtrn}.
-    ${rtrn}1700 - 2000 $ Hobb..
+    ${rtrn}1700 - 2000 $ Hobb..CSC
     ${rtrn}.
     ${rtrn}2000 ->     #   MATH HW
     "
     #wed
     "800 - 1015  % MATH..CS
     ${rtrn}.
-    ${rtrn}1030 ->     & work
+    ${rtrn}1030 ->     & SOURDOUGH
     ${rtrn}.
     ${rtrn}     ->     #   MATH HW
     ${rtrn}     ->     ## LATIN HW
@@ -122,38 +120,47 @@ messages=(
     #thur
     "800 - 1115  % MATH..ACTING
     ${rtrn}.
-    ${rtrn}1130 ->     & work
+    ${rtrn}1130 ->     & SOURDOUGH
     ${rtrn}.
     ${rtrn}     - 2000 #     CS HW
     ${rtrn}.
-    ${rtrn}2000 ->     & software..test
+    ${rtrn}2000 ->     & IAM..test
     "
     #fri
     "800 - 1015  % MATH..CS
     ${rtrn}.
-    ${rtrn}1030 ->     & work
+    ${rtrn}1030 ->     & SOURDOUGH
     ${rtrn}.
     ${rtrn}     - 2000 $       FUN
     ${rtrn}.
     ${rtrn}2000 ->     &   MATH HW
     "
     #sat
-    "800  - 1200 & software..test.document
+    "800  - 1200 & IAM..test.document
     ${rtrn}.
     ${rtrn}1200 ->     ++ Checklist
     ${rtrn}.
     ${rtrn}     - LATE & LATIN HW
     "
+    #sun
+    "800  ->     #   MATH HW
+    ${rtrn}     - 1400 # ACTING HW
+    ${rtrn}.
+    ${rtrn}1400 - 1600 ++ Maintenance
+    ${rtrn}.
+    ${rtrn}1600 - 1800 $ Hobb..CSC
+    ${rtrn}1800 - LATE & IAM..research
+    "
     )
 
 #neofetch --ascii_distro windows7
 #day
-echo -e "\e[3m\e[5m\e[01;3${day}m${days[${day}]}\e[0m"
+echo -e "\e[3m\e[5m\e[01;3$(((day) + 1))m${days[${day}]}\e[0m"
 #bits
-echo -e "\e[s\e[3m\e[100D\e[2B\e[01;91m@\e[01;92m@\e[1B\e[2D\e[01;93m@\e[01;94m@\e[u"
+echo -e "\e[3m\e[s\e[3m\e[100D\e[2B\e[01;91m@\e[01;92m@\e[1B\e[2D\e[01;93m@\e[01;94m@\e[u"
 echo -e "\e[s\e[100D\e[1B\e[78C\e[01;91m@\e[01;92m@\e[1B\e[1D\e[01;93m@\e[01;94m@\e[u"
 #schedule
-echo -e "\e[s\e[4m\e[\e[100D\e[10A\e[49C\e[01;33m$(date +%A) $(date +%b) $(date +%d)\e[u\e[0m"
+echo -e "\e[s\e[0m\e[4m\e[\e[100D\e[10A\e[49C\e[01;33m$(date +%A) $(date +%b) $(date +%d)\e[u"
 echo -e "\e[s\e[3m\e[9A${rtrn}\e[01;97m${messages[${day}]}\e[u"
 #remind
 echo -e "\e[s\e[1A\e[100D\e[7C\e[01;35m-->   ${reminders[$(($RANDOM % ${#reminders[@]}))]} \e[100D\e[70C<--\e[u"
@@ -165,6 +172,20 @@ echo -e "\e[01;00m\e[0m"
 head -n 15 ~/Desktop/todo.txt
 printf "\n          >> (A-F) << (A-B) X>> (A-D) <<X (C-W)\n"
 cd ~/Desktop/
+
+} #end greet
+
+test() {
+    if [ -z "$1" ]
+        then
+            for i in {0..6}; do greet i; sleep 2; done
+    else
+        greet $1
+    fi
+} #test
+
+arg=$(($(date +%u) - 1))
+greet arg
 
 #
 # ~/.bashrc
@@ -307,9 +328,39 @@ ex ()
   fi
 }
 
+bind 'TAB:menu-complete'
+
+# Display a list of the matching files
+bind "set show-all-if-ambiguous on"
+
+# Perform partial (common) completion on the first Tab press, only start
+# cycling full results on the second Tab press (from bash version 5)
+bind "set menu-complete-display-prefix on"
+
+# Cycle through history based on characters already typed on the line
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
+
+# Keep Ctrl-Left and Ctrl-Right working when the above are used
+bind '"\e[1;5C":forward-word'
+bind '"\e[1;5D":backward-word'
+
 
 # echoed aliases
+alias todo="nvim ~/Desktop/todo.txt"
+alias hours="nvim ~/Desktop/hours.txt"
 alias e="nvim"
 alias nvimrc="nvim ~/.nvimrc"
 alias vimrc="vim ~/.vimrc"
 alias bashrc="nvim ~/.bashrc"
+alias project1="cd ~/Desktop/shtuff/c/test/ && nvim main.cpp"
+alias school="nvim ~/Desktop/shtuff/etc/"
+alias aurora="ssh olbrown3@aurora.cs.uaf.edu"
+alias dt="cd ~/Desktop"
+alias project2="cd /home/orlabr/Desktop/shtuff/c/game/ && nvim main.cpp"
+alias vpn="sudo openconnect --protocol=gp --usergroup=gateway vpn.alaska.edu -b"
+alias bookmarks="nvim ~/.mozilla/firefox/bookmarks/"
+alias st="xfce4-terminal"
+alias cache="echo 3 | sudo tee /proc/sys/vm/drop_caches"
+alias rm="mv -t ~/Recycle"
+alias unlock="faillock --user orlabr --reset"
